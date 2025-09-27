@@ -1,5 +1,5 @@
 project:
-  type: website
+  type: default
 
 website:
   title: "Machine Learning"
@@ -15,5 +15,3 @@ format:
     toc: true
     code-fold: true
     fig-align: center
-    df-print: paged
-    embed-resources: true
