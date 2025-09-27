@@ -1,12 +1,10 @@
 ---
 title: "PRIMER REPORTE EN QUARTO"
 author: "Yachay Tech University" 
-date: "25-09-2025"
-format: "html"
-
-#AQUI PONER EL PATH HACIA SU AMBIENTE VIRTUAL
-execute:
-  python: .venv_2025SEM02_YT_ML/bin/python  # modificar con la ruta correcta de su entorno
+date: "2025-09-26"
+format:
+  html:
+    embed-resources: true
 ---
 
 # Titulo 1
@@ -47,10 +45,8 @@ alt.Chart(cars).mark_point(filled=True).encode(
 
 ```
 
-
 ### Subtitulo 3
 
-- lista
-    - elemento 1
-    - elemento 2
-
+-   lista
+    -   elemento 1
+    -   elemento 2
