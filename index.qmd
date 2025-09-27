@@ -2,9 +2,9 @@
 title: "PRIMER REPORTE EN QUARTO"
 author: "Yachay Tech University" 
 date: "2025-09-26"
-# format:
-#   html:
-#     embed-resources: true
+format:
+  html:
+    embed-resources: true
 ---
 
 # Titulo 1
