@@ -1,11 +1,5 @@
 ---
 title: "Exploratory Data Analysis (EDA)"
-format:
-  html:
-    code-fold: true
-    toc: true
-    number-sections: true
-    df-print: paged
 ---
 
 # Introduction
