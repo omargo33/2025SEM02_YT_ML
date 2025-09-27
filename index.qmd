@@ -7,7 +7,7 @@ format:
     embed-resources: true
 ---
 
-# Titulo 1
+# Introduccion a Altair
 
 
 ## Importar el dataset
