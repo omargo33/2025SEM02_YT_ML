@@ -2218,7 +2218,7 @@ vertical-align: -.125em;
 <h1>Titulo 1</h1>
 <section id="importar-el-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="importar-el-dataset">Importar el dataset</h2>
-<div id="34c5c446" class="cell" data-execution_count="1">
+<div id="c9e2a104" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> vega_datasets <span class="im">import</span> data</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cars <span class="op">=</span> data.cars()</span>
@@ -2244,7 +2244,7 @@ vertical-align: -.125em;
 <h2 class="anchored" data-anchor-id="visualización-en-altair">Visualización en Altair</h2>
 <section id="visualización-scatterplot" class="level3">
 <h3 class="anchored" data-anchor-id="visualización-scatterplot">Visualización scatterplot</h3>
-<div id="03f73b59" class="cell" data-execution_count="2">
+<div id="afdc66d1" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(cars).mark_point().encode(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">&quot;Miles_per_Gallon&quot;</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">&quot;Horsepower&quot;</span>,</span>
@@ -2254,22 +2254,22 @@ vertical-align: -.125em;
 <div class="cell-output cell-output-display" data-execution_count="2">
 
 <style>
-#altair-viz-e3ca999a89164160a4325a12a9daabc6.vega-embed {
+#altair-viz-f39362455aa7401f92397aa815954eae.vega-embed {
 width: 100%;
 display: flex;
 }
-#altair-viz-e3ca999a89164160a4325a12a9daabc6.vega-embed details,
-#altair-viz-e3ca999a89164160a4325a12a9daabc6.vega-embed details summary {
+#altair-viz-f39362455aa7401f92397aa815954eae.vega-embed details,
+#altair-viz-f39362455aa7401f92397aa815954eae.vega-embed details summary {
 position: relative;
 }
 </style>
-<div id="altair-viz-e3ca999a89164160a4325a12a9daabc6"></div>
+<div id="altair-viz-f39362455aa7401f92397aa815954eae"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-e3ca999a89164160a4325a12a9daabc6") {
-      outputDiv = document.getElementById("altair-viz-e3ca999a89164160a4325a12a9daabc6");
+    if (outputDiv.id !== "altair-viz-f39362455aa7401f92397aa815954eae") {
+      outputDiv = document.getElementById("altair-viz-f39362455aa7401f92397aa815954eae");
     }
 
     const paths = {
@@ -2324,7 +2324,7 @@ position: relative;
 </section>
 <section id="visualización-scatterplot-con-color" class="level3">
 <h3 class="anchored" data-anchor-id="visualización-scatterplot-con-color">Visualización scatterplot con color</h3>
-<div id="beda2fb6" class="cell" data-execution_count="3">
+<div id="aab09637" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(cars).mark_point(filled<span class="op">=</span><span class="va">True</span>).encode(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">&quot;Miles_per_Gallon&quot;</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">&quot;Horsepower&quot;</span>,</span>
@@ -2334,22 +2334,22 @@ position: relative;
 <div class="cell-output cell-output-display" data-execution_count="3">
 
 <style>
-#altair-viz-171e04c0bc9048c89e114d09cfdeb97c.vega-embed {
+#altair-viz-9489491ceafa453ca2c3ea02c9b13f75.vega-embed {
 width: 100%;
 display: flex;
 }
-#altair-viz-171e04c0bc9048c89e114d09cfdeb97c.vega-embed details,
-#altair-viz-171e04c0bc9048c89e114d09cfdeb97c.vega-embed details summary {
+#altair-viz-9489491ceafa453ca2c3ea02c9b13f75.vega-embed details,
+#altair-viz-9489491ceafa453ca2c3ea02c9b13f75.vega-embed details summary {
 position: relative;
 }
 </style>
-<div id="altair-viz-171e04c0bc9048c89e114d09cfdeb97c"></div>
+<div id="altair-viz-9489491ceafa453ca2c3ea02c9b13f75"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-171e04c0bc9048c89e114d09cfdeb97c") {
-      outputDiv = document.getElementById("altair-viz-171e04c0bc9048c89e114d09cfdeb97c");
+    if (outputDiv.id !== "altair-viz-9489491ceafa453ca2c3ea02c9b13f75") {
+      outputDiv = document.getElementById("altair-viz-9489491ceafa453ca2c3ea02c9b13f75");
     }
 
     const paths = {
