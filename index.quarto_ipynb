@@ -1,0 +1,193 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"PRIMER REPORTE EN QUARTO\"\n",
+        "author: \"Yachay Tech University\" \n",
+        "date: \"2025-09-26\"\n",
+        "# format:\n",
+        "#   html:\n",
+        "#     embed-resources: true\n",
+        "---\n",
+        "\n",
+        "# Introduccion a Altair\n",
+        "\n",
+        "\n",
+        "## Importar el dataset"
+      ],
+      "id": "55da845a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import altair as alt\n",
+        "from vega_datasets import data\n",
+        "cars = data.cars()\n",
+        "print(cars.head())"
+      ],
+      "id": "1916137f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Visualización en Altair\n",
+        "\n",
+        "### Visualización scatterplot"
+      ],
+      "id": "2fc46b73"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(cars).mark_point().encode(\n",
+        "    x=\"Miles_per_Gallon\",\n",
+        "    y=\"Horsepower\",\n",
+        "    tooltip=[\"Name\",\"Origin\",\"Miles_per_Gallon\",\"Horsepower\"]\n",
+        ").interactive()\n",
+        "#interactive: zoom, brush"
+      ],
+      "id": "e099ad41",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Visualización scatterplot con color"
+      ],
+      "id": "72b91557"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(cars).mark_point(filled=True).encode(\n",
+        "    x=\"Miles_per_Gallon\",\n",
+        "    y=\"Horsepower\",\n",
+        "    color=\"Origin\",\n",
+        "    tooltip=[\"Name\",\"Origin\",\"Miles_per_Gallon\",\"Horsepower\"]\n",
+        ").interactive()"
+      ],
+      "id": "54a6e5e7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Visualización scatterplot con color\n"
+      ],
+      "id": "005bf2c6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(cars).mark_point(filled=True).encode(\n",
+        "    x=\"Miles_per_Gallon\",\n",
+        "    y=\"Horsepower\",\n",
+        "    color=\"Origin\",\n",
+        "    shape=\"Origin\",\n",
+        "    tooltip=[\"Name\",\"Origin\",\"Miles_per_Gallon\",\"Horsepower\"]\n",
+        ").interactive()"
+      ],
+      "id": "6b85acc0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Agregaciones\n",
+        "\n",
+        "Gráfico de barras\n",
+        "\n",
+        "`count()` de cada una de los origines"
+      ],
+      "id": "c1727d84"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(cars).mark_bar().encode(\n",
+        "    alt.X('Origin',sort='-y'),\n",
+        "    alt.Y('count()')\n",
+        ")"
+      ],
+      "id": "e9a6d4b9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "`mean()` de cada una de los origines"
+      ],
+      "id": "e3226f60"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(cars).mark_bar().encode(\n",
+        "    alt.X('Origin',sort='-y'),\n",
+        "    alt.Y('mean(Weight_in_lbs)'),\n",
+        "    tooltip=['Origin','mean(Weight_in_lbs)']\n",
+        ").properties(\n",
+        "    width=200,\n",
+        "    height=200\n",
+        ")"
+      ],
+      "id": "296ff47c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Gráfico lineal"
+      ],
+      "id": "339934bb"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(cars).mark_line(point=True).encode(\n",
+        "    alt.X('Year'),\n",
+        "    alt.Y('mean(Weight_in_lbs)'),\n",
+        "    alt.Color('Origin')\n",
+        ").properties(\n",
+        "    width=600\n",
+        ").interactive()"
+      ],
+      "id": "108c0b39",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "/Users/erickedu85/Dropbox/python_projects/2025SEM02_YT_ML/.venv_2025SEM02_YT_ML/share/jupyter/kernels/python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
