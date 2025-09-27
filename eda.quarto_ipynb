@@ -1,0 +1,1059 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Exploratory Data Analysis (EDA)\"\n",
+        "format:\n",
+        "  html:\n",
+        "    code-fold: true\n",
+        "    toc: true\n",
+        "    number-sections: true\n",
+        "    df-print: paged\n",
+        "---\n",
+        "\n",
+        "# Introduction\n",
+        "\n",
+        "Exploratory Data Analysis (EDA) is one of the fundamental steps in any data science process. It allows us to **understand the structure**, **detect anomalies**, and **uncover patterns** in the data before modeling.\n",
+        "\n",
+        "> *\"Without EDA, you're not doing data science, you're just guessing.\"*\n",
+        "\n",
+        "EDA combines statistics, programming, and **visualization** to explore datasets. This report is designed to help you practice these core skills using real-world data.\n",
+        "\n",
+        "\n",
+        "## Dataset\n",
+        "\n",
+        "We will use the **`movies`** dataset from [vega-datasets](https://vega.github.io/vega-datasets/), which includes information about thousands of films such as their ratings, genres, duration, and box office revenue.\n",
+        "\n",
+        "Let's load and preview the dataset:"
+      ],
+      "id": "b959d923"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import pandas as pd\n",
+        "import altair as alt\n",
+        "from vega_datasets import data\n",
+        "\n",
+        "# Load dataset\n",
+        "movies = data.movies()\n",
+        "\n",
+        "# Show first rows\n",
+        "movies.head()"
+      ],
+      "id": "6c7d6f23",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Now, let’s examine the shape (number of rows and columns) of the dataset:"
+      ],
+      "id": "10a34a39"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "movies.shape"
+      ],
+      "id": "f4ff1f50",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "This tells us how many entries (rows) and features (columns) are present in the dataset.\n",
+        "\n",
+        "\n",
+        "## First Steps\n",
+        "\n",
+        "Before diving deeper into the data, it’s useful to explore some key metadata:\n",
+        "\n",
+        "- ✅ The **column names** and their **data types**\n",
+        "- ⚠️ The **presence of missing values**\n",
+        "- 📊 Summary **statistics** for numeric columns\n",
+        "\n",
+        "### Column Names and Data Types\n",
+        "\n",
+        "Understanding the structure of the dataset helps us know what type of data we're dealing with."
+      ],
+      "id": "a9f6d992"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "movies.dtypes"
+      ],
+      "id": "c7507a4c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "We can also use .info() for a more complete summary, including non-null counts:\n"
+      ],
+      "id": "dee9cc43"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Overview of the dataset\n",
+        "movies.info()"
+      ],
+      "id": "71d4c341",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Missing Values\n",
+        "\n",
+        "Detecting and handling missing values is a critical step in any EDA process. Missing data can bias analysis or break downstream models if not handled properly.\n",
+        "\n",
+        "- Detect **patterns** in missingness\n",
+        "- Identify if some columns are almost entirely null\n",
+        "- Decide whether to **drop** or **impute** certain variables\n",
+        "\n",
+        "\n",
+        "### Percentage of Missing Values per Column\n",
+        "\n",
+        "Let’s start by computing the percentage of missing values in each column:"
+      ],
+      "id": "d9b1a1aa"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "nan_percent = movies.isna().mean() * 100\n",
+        "nan_percent_sorted = nan_percent.sort_values(ascending=False).round(2)\n",
+        "nan_percent_sorted"
+      ],
+      "id": "80e28dd2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Reshaping the Data for Visualization\n",
+        "\n",
+        "To visualize missing values with Altair, we need to reshape the data into a long format where each missing value is a row:"
+      ],
+      "id": "f361e849"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "movies_nans = movies.isna().reset_index().melt(\n",
+        "    id_vars='index',\n",
+        "    var_name='column',\n",
+        "    value_name=\"NaN\"\n",
+        ")\n",
+        "movies_nans"
+      ],
+      "id": "b543603e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Heatmap of Missing Data\n",
+        "\n",
+        "This heatmap shows where missing values occur across rows and columns. Patterns may indicate:\n",
+        "\n",
+        "- Columns with consistently missing values\n",
+        "- Entire rows with large gaps\n",
+        "- Correlated missingness between variables\n",
+        "\n",
+        "To avoid limitations in the number of rows rendered by Altair, we disable the max rows warning:"
+      ],
+      "id": "3529cb1b"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.data_transformers.disable_max_rows()"
+      ],
+      "id": "3df5fd77",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Now we can create the heatmap:"
+      ],
+      "id": "08a5c08d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(movies_nans).mark_rect().encode(\n",
+        "    alt.X('index:O'),\n",
+        "    alt.Y('column'),\n",
+        "    alt.Color('NaN')\n",
+        ").properties(\n",
+        "    width=1000\n",
+        ")"
+      ],
+      "id": "ba9e3b11",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "This plot can help identify columns or rows with critical data issues.\n",
+        "\n",
+        "### Dropping Columns with High Missing Rate\n",
+        "\n",
+        "In many real-world cases, we may decide to remove columns that have too many missing values. Let’s set a threshold of 70%:"
+      ],
+      "id": "0ca7bc1d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "threshold_nan = 70 # in percent\n",
+        "cols_to_drop = nan_percent[nan_percent>threshold_nan].index\n",
+        "cols_to_drop"
+      ],
+      "id": "adf064aa",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "These columns have more than 70% missing values and may not be useful for analysis.\n",
+        "\n",
+        "\n",
+        "## Cleaned Dataset\n",
+        "Finally, we drop the selected columns and inspect the updated dataset:"
+      ],
+      "id": "3857e72d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "movies_cleaned = movies.drop(columns=cols_to_drop)\n",
+        "movies_cleaned"
+      ],
+      "id": "53b4bf94",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Types of Data Analysis in EDA\n",
+        "\n",
+        "Understanding the nature of variables and the relationships between them is central to Exploratory Data Analysis (EDA). Depending on the number and type of variables involved, we can classify analysis into three main categories: univariate, bivariate, and multivariate.\n",
+        "\n",
+        "@tbl-analysis-types shows how EDA analysis types vary depending on the number and types of variables involved.\n",
+        "\n",
+        "> This classification helps guide the selection of appropriate visualization techniques and statistical methods for each case.\n",
+        "\n",
+        "::: {.table-caption}\n",
+        "| **Analysis Type** | **Variable Types**             | **Description**                              | **Examples**                        |\n",
+        "|-------------------|--------------------------------|----------------------------------------------|-------------------------------------|\n",
+        "| Univariate        | Categorical                    | One qualitative variable                     | Gender, Product Category            |\n",
+        "| Univariate        | Quantitative                   | One numerical variable                       | Income, Age, Runtime                |\n",
+        "| Bivariate         | Categorical – Categorical      | Two qualitative variables                    | Gender vs Nationality               |\n",
+        "| Bivariate         | Categorical – Quantitative     | One qualitative and one numerical            | Province vs Population              |\n",
+        "| Bivariate         | Quantitative – Quantitative    | Two numerical variables                      | Age vs Income                       |\n",
+        "| Multivariate      | 3 or more variables (any mix)  | Combination of categorical and/or numerical  | Age vs Income by Gender, etc.       |\n",
+        "\n",
+        "Table: **Types of analysis and variable combinations used in EDA** {#tbl-analysis-types}\n",
+        ":::\n",
+        "\n",
+        "## Univariate Analysis: Quantitative\n",
+        "\n",
+        "A univariate analysis focuses on examining a single numeric variable to understand its distribution, shape, central tendency, and spread. One of the most common tools for this is the **histogram**.\n",
+        "\n",
+        "In this case, we’ll explore the distribution of the movie runtime (`Running_Time_min`).\n",
+        "\n",
+        "### Basic Histogram\n",
+        "\n",
+        "We start by creating a histogram to visualize the distribution of running times:"
+      ],
+      "id": "e0f96022"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(movies_cleaned).mark_bar().encode(\n",
+        "    alt.X('Running_Time_min',bin=alt.Bin(maxbins=30)),\n",
+        "    alt.Y('count()')\n",
+        ").properties(\n",
+        "    title='Histogram of Movie Runtimes (30 bins)'\n",
+        ")"
+      ],
+      "id": "c1d541ad",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "This chart shows how many movies fall into each time interval (bin). However, histograms can look quite different depending on the number and size of bins used.\n",
+        "\n",
+        "### Effect of Bin Size\n",
+        "\n",
+        "Let’s compare how the histogram shape changes with different bin sizes:"
+      ],
+      "id": "88c0d870"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "histogram_1 = alt.Chart(movies_cleaned).mark_bar().encode(\n",
+        "    alt.X('Running_Time_min',bin=alt.Bin(maxbins=8)),\n",
+        "    alt.Y('count()')\n",
+        ")\n",
+        "\n",
+        "histogram_2 = alt.Chart(movies_cleaned).mark_bar().encode(\n",
+        "    alt.X('Running_Time_min',bin=alt.Bin(maxbins=10)),\n",
+        "    alt.Y('count()')\n",
+        ")\n",
+        "\n",
+        "histogram_1 | histogram_2"
+      ],
+      "id": "dcd7d91c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Even though both plots use the same data, the choice of bin size changes the visual interpretation. A small number of bins may hide details, while too many bins can make it harder to spot trends.\n",
+        "\n",
+        "\n",
+        "### Density plots, or Kernel Density Estimate (KDE)\n",
+        "\n",
+        "Density plots offer a smoothed alternative to histograms. Instead of using rectangular bins to count data points, they estimate the probability density function by placing bell-shaped curves (kernels) at each observation and summing them.\n",
+        "\n",
+        "This approach helps reduce the visual noise and jaggedness that can occur in histograms and gives a clearer picture of the underlying distribution."
+      ],
+      "id": "930ca7fc"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(movies_cleaned).transform_density(\n",
+        "    'Running_Time_min',\n",
+        "    as_=['Running_Time_min','density'],\n",
+        ").mark_area().encode(\n",
+        "    alt.X('Running_Time_min'),\n",
+        "    alt.Y('density:Q')\n",
+        ").properties(\n",
+        "    title=\"Movies runtime\"\n",
+        ")"
+      ],
+      "id": "207a939c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Grouped Density plot\n",
+        "\n",
+        "We can also compare distributions across groups by splitting the KDE by a **categorical variable** using the groupby parameter. This helps us see how the distribution differs between categories, such as genres."
+      ],
+      "id": "58dd0eeb"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "selection = alt.selection_point(fields=['Major_Genre'], bind='legend')\n",
+        "\n",
+        "alt.Chart(movies_cleaned).transform_density(\n",
+        "    'Running_Time_min',\n",
+        "    groupby=['Major_Genre'],\n",
+        "    as_=['Running_Time_min', 'density'],\n",
+        ").mark_area(opacity=0.5).encode(\n",
+        "    alt.X('Running_Time_min'),\n",
+        "    alt.Y('density:Q', stack=None),\n",
+        "    alt.Color('Major_Genre'),\n",
+        "    opacity=alt.condition(selection, \n",
+        "        alt.value(1), \n",
+        "        alt.value(0.05)\n",
+        "    )\n",
+        ").add_params(\n",
+        "    selection\n",
+        ").properties(\n",
+        "    title=\"Movies Runtime by Genre (Interactive Filter)\"\n",
+        ").interactive()"
+      ],
+      "id": "56ba755d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "The **transparency (opacity=0.5)** allows us to observe overlapping distributions and ensures that small density areas are not completely hidden behind larger ones.\n",
+        "\n",
+        "From this plot, we can observe, for example, that *Drama* movies have runtimes nearly as long as the longest *Adventure* movies, even though their overall distributions differ.\n",
+        "\n",
+        "## Bivariate Analysis: Categorical vs Quantitative\n",
+        "\n",
+        "Bivariate analysis examines the relationship between two variables. In this case, we focus on one categorical variable (e.g., genre) and one quantitative variable (e.g., revenue), which is a very common scenario in exploratory data analysis.\n",
+        "\n",
+        "This type of analysis is useful to:\n",
+        "- Compare average or median values across categories.\n",
+        "- Detect outliers or high-variance groups.\n",
+        "- Understand distributional differences across categories.\n",
+        "\n",
+        "Below are several effective visualizations for this analysis.\n",
+        "\n",
+        "### Basic Barchart\n",
+        "\n",
+        "Bar charts are effective for comparing aggregated values (like the mean) across different groups. However, they hide the distribution and variation within each group."
+      ],
+      "id": "d503f602"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(movies_cleaned).mark_bar().encode(\n",
+        "    alt.X('mean(Worldwide_Gross)'),\n",
+        "    alt.Y(\"Major_Genre\")\n",
+        ").properties(\n",
+        "    title=\"Average Worldwide Gross by Genre\"\n",
+        ")"
+      ],
+      "id": "d6afabd3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "This bar chart shows the mean Worldwide Gross per genre. It is useful for identifying which genres are more profitable on average, but does not show how spread out the data is.\n",
+        "\n",
+        "### Tick Plot\n",
+        "\n",
+        "To visualize individual data points, we use a tick plot. This helps uncover variability within genres and detect outliers."
+      ],
+      "id": "c203bd05"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(movies_cleaned).mark_tick().encode(\n",
+        "    alt.X('Worldwide_Gross'),\n",
+        "    alt.Y(\"Major_Genre\"),\n",
+        "    alt.Tooltip('Title:N')\n",
+        ").properties(\n",
+        "    title=\"Individual Gross per Movie by Genre\"\n",
+        ")"
+      ],
+      "id": "58c889aa",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Heatmaps\n",
+        "\n",
+        "Heatmaps can summarize the frequency of data points across both axes (quantitative and categorical) using color intensity. It’s particularly useful for spotting patterns without getting overwhelmed by individual points."
+      ],
+      "id": "c13980d8"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(movies_cleaned).mark_rect().encode(\n",
+        "    alt.X('Worldwide_Gross',bin=alt.Bin(maxbins=100)),\n",
+        "    alt.Y(\"Major_Genre\"),\n",
+        "    alt.Color('count()'),\n",
+        "    alt.Tooltip('count()')\n",
+        ").properties(\n",
+        "    title=\"Heatmap of Movie Counts by Gross and Genre\"\n",
+        ")"
+      ],
+      "id": "84470296",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "This heatmap shows how frequently movies from each genre fall into different revenue ranges.\n",
+        "\n",
+        "\n",
+        "\n",
+        "### Boxplot\n",
+        "\n",
+        "Boxplots are useful for comparing distributions across categories and identifying outliers. Boxplots summarize a distribution using five statistics:\n",
+        "\n",
+        "- Median (Q2)\n",
+        "- First Quartile (Q1)\n",
+        "- Third Quartile (Q3)\n",
+        "- Lower Whisker (Q1 - 1.5 × IQR)\n",
+        "- Upper Whisker (Q3 + 1.5 × IQR)"
+      ],
+      "id": "0c21f10f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(movies_cleaned).mark_boxplot().encode(\n",
+        "    alt.X('Worldwide_Gross'),\n",
+        "    alt.Y(\"Major_Genre\")\n",
+        ").properties(\n",
+        "    title=\"Boxplot of Worldwide Gross by Genre\"\n",
+        ")"
+      ],
+      "id": "13614ce1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Side-by-side: Boxplot and Bar Chart\n",
+        "\n",
+        "To contrast aggregated values (bar chart) with the full distribution (boxplot), we can display them together:"
+      ],
+      "id": "5dea65b9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "bar = alt.Chart(movies_cleaned).mark_bar().encode(\n",
+        "    alt.X('mean(Worldwide_Gross)'),\n",
+        "    alt.Y(\"Major_Genre\")\n",
+        ")\n",
+        "\n",
+        "box = alt.Chart(movies_cleaned).mark_boxplot().encode(\n",
+        "    alt.X('mean(Worldwide_Gross)'),\n",
+        "    alt.Y(\"Major_Genre\")\n",
+        ")\n",
+        "\n",
+        "box | bar"
+      ],
+      "id": "42042a55",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "This comparison reveals whether the mean is a good representative of the genre, or whether the data is skewed or contains outliers that affect the average\n",
+        "\n",
+        "## Bivariate Analysis: Quantitative vs Quantitative\n",
+        "\n",
+        "When analyzing two quantitative (numerical) variables simultaneously, we aim to discover possible relationships, trends, or correlations. This type of bivariate analysis can reveal whether increases in one variable are associated with increases or decreases in another (positive or negative correlation), or if there’s no relationship at all. The most common and intuitive visualization for this is the **scatterplot**.\n",
+        "\n",
+        "### Scatterplots\n",
+        "\n",
+        "Scatter plots are effective visualizations for exploring **two-dimensional distributions**, allowing us to identify patterns, trends, clusters, or outliers.\n",
+        "\n",
+        "Let’s start by visualizing how movies are rated across two popular online platforms:\n",
+        "\n",
+        "- [IMDb](https://www.imdb.com/)  \n",
+        "- [Rotten Tomatoes](https://www.rottentomatoes.com)\n",
+        "\n",
+        "Are movies rated similarly on different platforms?\n"
+      ],
+      "id": "dcdf8b7b"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(movies_cleaned).mark_point().encode(\n",
+        "    alt.X('IMDB_Rating'),\n",
+        "    alt.Y('Rotten_Tomatoes_Rating')\n",
+        ").properties(\n",
+        "    title=\"IMDB vs Rotten Tomatoes Ratings\"\n",
+        ")"
+      ],
+      "id": "a7b49001",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Scatterplot Saturation\n",
+        "\n",
+        "Scatterplots can become saturated when too many points overlap in a small area of the chart, making it difficult to distinguish dense regions from sparse ones. For example, when plotting financial variables like production budget versus worldwide gross:\n"
+      ],
+      "id": "8fb20eef"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "saturated = alt.Chart(movies_cleaned).mark_point().encode(\n",
+        "    alt.X('Production_Budget'),\n",
+        "    alt.Y('Worldwide_Gross')\n",
+        ").properties(\n",
+        "    title=\"Saturated Scatterplot: Budget vs Gross\"\n",
+        ")\n",
+        "saturated"
+      ],
+      "id": "787cb074",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Using Binned Heatmap to Reduce Saturation\n",
+        "To address saturation, we can **bin** both variables and use a heatmap where the color intensity represents the number of movies that fall into each rectangular region of the grid. This makes dense areas more interpretable"
+      ],
+      "id": "cd27bb5a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "heatmap_scatter = alt.Chart(movies_cleaned).mark_rect().encode(\n",
+        "    alt.X('Production_Budget', bin=alt.Bin(maxbins=60)),\n",
+        "    alt.Y('Worldwide_Gross', bin=alt.Bin(maxbins=60)),\n",
+        "    alt.Color('count()'),\n",
+        "    alt.Tooltip('count()')\n",
+        ").properties(\n",
+        "    title=\"Binned Heatmap: Budget vs Gross\"\n",
+        ")\n",
+        "heatmap_scatter"
+      ],
+      "id": "96fe0dec",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Side-by-side Comparison\n",
+        "\n",
+        "Compare the raw scatterplot with the heatmap representation:\n"
+      ],
+      "id": "e5b53558"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "saturated | heatmap_scatter"
+      ],
+      "id": "5448d934",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Bivariate Analysis: Categorical vs Categorical\n",
+        "\n",
+        "\n",
+        "When working with **two categorical variables**, bivariate analysis helps us understand how categories from one variable relate or are distributed across the other. For example, we might want to know how different **movie genres** are rated according to the **MPAA rating system**. Visualization techniques like grouped bar charts and faceted plots can reveal patterns, associations, or class imbalances.\n",
+        "\n",
+        "### Basic Faceted Bar Chart\n",
+        "\n",
+        "We begin by exploring how movies are rated (MPAA_Rating) across different genres (Major_Genre). A faceted bar chart allows us to visualize this relationship by plotting a bar chart **per genre**, helping to identify genre-specific rating distributions."
+      ],
+      "id": "61d29483"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(movies_cleaned).mark_bar().encode(\n",
+        "    alt.X('count()'),\n",
+        "    alt.Y('MPAA_Rating'),\n",
+        "    alt.Color('MPAA_Rating')\n",
+        ").facet(\n",
+        "    'Major_Genre'\n",
+        ")"
+      ],
+      "id": "be7e77a9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Vertical Faceting for Alignment\n",
+        "\n",
+        "Faceting horizontally can make comparisons across genres harder when the x-axis is misaligned. By specifying columns=1, we lay out the facets vertically, making it easier to compare counts across genres."
+      ],
+      "id": "8bf7ecb8"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(movies_cleaned).mark_bar().encode(\n",
+        "    alt.X('count()'),\n",
+        "    alt.Y('MPAA_Rating'),\n",
+        "    alt.Color('MPAA_Rating')\n",
+        ").facet(\n",
+        "    'Major_Genre',\n",
+        "    columns=1\n",
+        ")"
+      ],
+      "id": "7ae9deee",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Dependent vs Independent Axis Scaling\n",
+        "\n",
+        "By default, facet plots share the same x-axis scale (dependent scale), which allows for easier comparison across panels. However, when the number of observations varies greatly between genres, this shared scale can compress some charts.\n",
+        "\n",
+        "We can instead use independent x-axis scaling for each facet. This highlights the relative distribution within each genre."
+      ],
+      "id": "3e277498"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "shared_scale = alt.Chart(movies_cleaned).mark_bar().encode(\n",
+        "    alt.X('count()'),\n",
+        "    alt.Y('MPAA_Rating'),\n",
+        "    alt.Color('MPAA_Rating')\n",
+        ").facet(\n",
+        "    'Major_Genre',\n",
+        "    columns=4\n",
+        ")\n",
+        "\n",
+        "independent_scale = alt.Chart(movies_cleaned).mark_bar().encode(\n",
+        "    alt.X('count()'),\n",
+        "    alt.Y('MPAA_Rating'),\n",
+        "    alt.Color('MPAA_Rating')\n",
+        ").facet(\n",
+        "    'Major_Genre',\n",
+        "    columns=4\n",
+        ").resolve_scale(x='independent')\n",
+        "\n",
+        "shared_scale | independent_scale"
+      ],
+      "id": "4e6307e8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "The left panel (shared scale) makes absolute comparisons between genres, while the right panel (independent scale) makes within-genre comparisons more readable.\n",
+        "\n",
+        "\n",
+        "### Heatmaps\n",
+        "\n",
+        "Heatmaps are effective for visualizing the relationship between two **categorical variables** when the goal is to display **counts or frequency** of occurrences. They map **the number of observations** to **color**, providing an intuitive view of which category pairs are most or least common.\n",
+        "\n",
+        "We can enhance this basic representation by also using **marker size**, combining both **color intensity** and **circle area** to represent counts more effectively. This dual encoding can improve interpretation, especially when printed in grayscale or when there are subtle color differences.\n"
+      ],
+      "id": "f7eafe56"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "heatmap_color = alt.Chart(movies_cleaned).mark_rect().encode(\n",
+        "    alt.X('MPAA_Rating'),\n",
+        "    alt.Y('Major_Genre', sort='color'),\n",
+        "    alt.Color('count()')\n",
+        ").properties(\n",
+        "    title=\"Heatmap with Color (Count of Movies)\"\n",
+        ")\n",
+        "\n",
+        "heatmap_size = alt.Chart(movies_cleaned).mark_circle().encode(\n",
+        "    alt.X('MPAA_Rating'),\n",
+        "    alt.Y('Major_Genre', sort='color'),\n",
+        "    alt.Color('count()'),\n",
+        "    alt.Size('count()')\n",
+        ").properties(\n",
+        "    title=\"Heatmap with Color + Size (Count of Movies)\"\n",
+        ")\n",
+        "\n",
+        "heatmap_color | heatmap_size"
+      ],
+      "id": "fa2eac0b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Multivariate Analysis\n",
+        "\n",
+        "\n",
+        "Multivariate analysis helps us understand the interactions and relationships among multiple variables simultaneously. In the context of numerical features, it is useful to explore pairwise distributions, correlations, and detect potential clusters or anomalies.\n",
+        "\n",
+        "When the number of variables is large, **repeated charts** such as histograms or scatter plot matrices help us summarize patterns efficiently and consistently across all numerical dimensions.\n",
+        "\n",
+        "### Repeated Histograms for Numerical Columns\n",
+        "\n",
+        "We first identify and isolate all numerical columns from the dataset. Then we repeat a histogram for each of these columns to understand the individual distributions. This overview is helpful to detect skewness, outliers, or binning decisions that affect how data is grouped visually.\n"
+      ],
+      "id": "954c62db"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Select only numerical columns\n",
+        "numerical_columns = movies_cleaned.select_dtypes('number').columns.tolist()"
+      ],
+      "id": "1b3ef76e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(movies_cleaned).mark_bar().encode(\n",
+        "    alt.X(alt.repeat(),type='quantitative',bin=alt.Bin(maxbins=30)),\n",
+        "    alt.Y('count()')\n",
+        ").properties(\n",
+        "    width=150,\n",
+        "    height=150\n",
+        ").repeat(\n",
+        "    numerical_columns,\n",
+        "    columns=4\n",
+        ")"
+      ],
+      "id": "17833106",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Scatter Plot Matrix (Pairplot)\n",
+        "\n",
+        "A scatter plot matrix shows the pairwise relationships between all numerical variables. This is a common exploratory tool to detect:\n",
+        "\n",
+        "- Correlations between variables\n",
+        "- Outliers or clusters\n",
+        "- Relationships useful for prediction models (e.g., to predict rating or budget)\n",
+        "\n",
+        "We focus especially on the plots below the diagonal, as they are not duplicated."
+      ],
+      "id": "625db267"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(movies_cleaned).mark_point().encode(\n",
+        "    alt.X(alt.repeat('column'),type='quantitative'),\n",
+        "    alt.Y(alt.repeat('row'),type='quantitative'),\n",
+        "    alt.Tooltip('Title:N')\n",
+        ").properties(\n",
+        "    width=100,\n",
+        "    height=100\n",
+        ").repeat(\n",
+        "    column=numerical_columns,\n",
+        "    row=numerical_columns\n",
+        ")"
+      ],
+      "id": "4cf8fd09",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Heatmap Matrix\n",
+        "When scatter plots become too saturated (many overlapping points), heatmaps offer a better alternative by binning the numeric values and encoding the **count** in **color intensity**."
+      ],
+      "id": "3d35d083"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(movies_cleaned).mark_rect().encode(\n",
+        "    alt.X(alt.repeat('column'),type='quantitative',bin=alt.Bin(maxbins=30)),\n",
+        "    alt.Y(alt.repeat('row'),type='quantitative',bin=alt.Bin(maxbins=30)),\n",
+        "    alt.Color('count()'),\n",
+        "    alt.Tooltip('count()')\n",
+        ").properties(\n",
+        "    width=100,\n",
+        "    height=100\n",
+        ").repeat(\n",
+        "    column=numerical_columns,\n",
+        "    row=numerical_columns\n",
+        ").resolve_scale(\n",
+        "    color='independent'\n",
+        ")"
+      ],
+      "id": "e220aa2b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "To gain deeper insights into the dataset, it's important to analyze how **numerical variables** behave across **different categories**. This type of multivariate analysis allows us to:\n",
+        "\n",
+        "- Compare distributions across categories\n",
+        "- Detect outliers within categories\n",
+        "- Observe central tendency (median, quartiles) and spread (range, IQR)\n",
+        "\n",
+        "Boxplots are particularly effective for this purpose. In the following visualizations, we explore these relationships by **repeating plots across combinations** of categorical and numerical features.\n",
+        "\n",
+        "### Filter Categorical Columns\n",
+        "\n",
+        "First, we select the relevant categorical columns, excluding identifiers and text-heavy variables like movie titles or director names."
+      ],
+      "id": "0b19e080"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "categorical_columns =  movies_cleaned.select_dtypes('object').columns.to_list()\n",
+        "\n",
+        "categorical_columns_remove = ['Title','Release_Date','Distributor','Director']\n",
+        "\n",
+        "categorical_filtered = [col for col in categorical_columns if col not in categorical_columns_remove]"
+      ],
+      "id": "a5f3c5bd",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Repeated Boxplots: Categorical vs Numerical\n",
+        "\n",
+        "We repeat boxplots using combinations of categorical (rows) and numerical (columns) features. This matrix layout gives a clear visual overview of how numerical values are distributed within each category."
+      ],
+      "id": "eb7851ab"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(movies_cleaned).mark_boxplot().encode(\n",
+        "    alt.X(alt.repeat('column'),type='quantitative'),\n",
+        "    alt.Y(alt.repeat('row'),type='nominal'),\n",
+        "    alt.Size('count()')\n",
+        ").properties(\n",
+        "    width=200,\n",
+        "    height=200\n",
+        ").repeat(\n",
+        "    column=numerical_columns,\n",
+        "    row=categorical_filtered\n",
+        ")"
+      ],
+      "id": "2665068e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Faceted Boxplots\n",
+        "\n",
+        "For more focused analysis, we can facet the boxplots using a specific categorical variable like MPAA_Rating, and repeat the chart by different categorical rows. This lets us keep the numerical axis fixed while comparing how categories vary across different classes (e.g., movie ratings).\n"
+      ],
+      "id": "a7588007"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "alt.Chart(movies_cleaned).mark_boxplot().encode(\n",
+        "    alt.X('Running_Time_min', type='quantitative'),\n",
+        "    alt.Y(alt.repeat('row'),type='nominal'),\n",
+        "    alt.Size('count()'),\n",
+        "    alt.Tooltip('Title:N')\n",
+        ").properties(\n",
+        "    width=100,\n",
+        "    height=100\n",
+        ").facet(\n",
+        "    column='MPAA_Rating'\n",
+        ").repeat(\n",
+        "    row=categorical_filtered\n",
+        ")"
+      ],
+      "id": "22e14870",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "/Users/erickedu85/Dropbox/python_projects/2025SEM02_YT_ML/.venv_2025SEM02_YT_ML/share/jupyter/kernels/python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
