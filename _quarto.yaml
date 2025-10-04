@@ -10,6 +10,8 @@ website:
         text: Home
       - href: eda.qmd
         text: EDA
+      - href: classification.qmd
+        text: CLASSIFICATION
 format:
   html:
     theme: cosmo

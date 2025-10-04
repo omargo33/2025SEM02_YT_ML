@@ -181,12 +181,15 @@ alt.Chart(movies_cleaned).mark_bar().encode(
     title='Histogram of Movie Runtimes (30 bins)'
 )
 ```
+
 This chart shows how many movies fall into each time interval (bin). However, histograms can look quite different depending on the number and size of bins used.
 
 ### Effect of Bin Size
 
 Let’s compare how the histogram shape changes with different bin sizes:
 ```{python}
+import math
+
 histogram_1 = alt.Chart(movies_cleaned).mark_bar().encode(
     alt.X('Running_Time_min',bin=alt.Bin(maxbins=8)),
     alt.Y('count()')
@@ -197,11 +200,40 @@ histogram_2 = alt.Chart(movies_cleaned).mark_bar().encode(
     alt.Y('count()')
 )
 
-histogram_1 | histogram_2
+
+n = movies_cleaned['Running_Time_min'].dropna().shape[0]
+
+# Square-root rule
+bins_sqrt = int(math.sqrt(n))
+
+# Sturges' rule
+bins_sturges = int(math.ceil(math.log2(n) + 1))
+
+# Histograms using rules
+histogram_sqrt = alt.Chart(movies_cleaned).mark_bar().encode(
+    alt.X('Running_Time_min', bin=alt.Bin(maxbins=bins_sqrt)),
+    alt.Y('count()')
+).properties(
+    title=f'√n rule bins = {bins_sqrt}'
+)
+
+histogram_sturges = alt.Chart(movies_cleaned).mark_bar().encode(
+    alt.X('Running_Time_min', bin=alt.Bin(maxbins=bins_sturges)),
+    alt.Y('count()')
+).properties(
+    title=f'Sturges rule bins = {bins_sturges}'
+)
+
+(histogram_1 | histogram_2) & (histogram_sqrt | histogram_sturges)
 
 ```
 
-Even though both plots use the same data, the choice of bin size changes the visual interpretation. A small number of bins may hide details, while too many bins can make it harder to spot trends.
+Even though all plots use the same data, the choice of bin size changes the visual interpretation:
+
+- A very small number of bins (e.g., 8) can smooth over important details and give an overly simplified view.  
+- A moderate number (e.g., 10) may show more structure.  
+- The √n rule ([Wikipedia](https://en.wikipedia.org/wiki/Histogram)) tends to give a reasonable middle ground for many distributions.  
+- Sturges’ rule ([Wikipedia](https://es.wikipedia.org/wiki/Regla_de_Sturges)) is derived under the assumption of normality and often suggests a slightly lower number of bins, which works well for approximately normal data but can underfit for skewed distributions.
 
 
 ### Density plots, or Kernel Density Estimate (KDE)
@@ -288,7 +320,7 @@ alt.Chart(movies_cleaned).mark_tick().encode(
     alt.Tooltip('Title:N')
 ).properties(
     title="Individual Gross per Movie by Genre"
-)
+).interactive()
 ```
 
 ### Heatmaps
@@ -297,7 +329,7 @@ Heatmaps can summarize the frequency of data points across both axes (quantitati
 
 ```{python}
 alt.Chart(movies_cleaned).mark_rect().encode(
-    alt.X('Worldwide_Gross',bin=alt.Bin(maxbins=100)),
+    alt.X('Worldwide_Gross',bin=alt.Bin(maxbins=200)),
     alt.Y("Major_Genre"),
     alt.Color('count()'),
     alt.Tooltip('count()')
@@ -321,11 +353,14 @@ Boxplots are useful for comparing distributions across categories and identifyin
 
 ```{python}
 alt.Chart(movies_cleaned).mark_boxplot().encode(
-    alt.X('Worldwide_Gross'),
-    alt.Y("Major_Genre")
+    alt.Y('Worldwide_Gross'),
+    alt.X("Major_Genre"),
+    alt.Size('count()'),
+    tooltip=["Title:N"]
 ).properties(
-    title="Boxplot of Worldwide Gross by Genre"
-)
+    title="Boxplot of Worldwide Gross by Genre",
+    width=400
+).interactive()
 ```
 
 
@@ -367,10 +402,11 @@ Are movies rated similarly on different platforms?
 ```{python}
 alt.Chart(movies_cleaned).mark_point().encode(
     alt.X('IMDB_Rating'),
-    alt.Y('Rotten_Tomatoes_Rating')
+    alt.Y('Rotten_Tomatoes_Rating'),
+    tooltip=['Title:N','IMDB_Rating','Rotten_Tomatoes_Rating']
 ).properties(
     title="IMDB vs Rotten Tomatoes Ratings"
-)
+).interactive()
 ```
 
 ### Scatterplot Saturation
@@ -381,7 +417,8 @@ Scatterplots can become saturated when too many points overlap in a small area o
 ```{python}
 saturated = alt.Chart(movies_cleaned).mark_point().encode(
     alt.X('Production_Budget'),
-    alt.Y('Worldwide_Gross')
+    alt.Y('Worldwide_Gross'),
+    tooltip=["Title:N"]
 ).properties(
     title="Saturated Scatterplot: Budget vs Gross"
 )
@@ -425,10 +462,9 @@ We begin by exploring how movies are rated (MPAA_Rating) across different genres
 ```{python}
 alt.Chart(movies_cleaned).mark_bar().encode(
     alt.X('count()'),
-    alt.Y('MPAA_Rating'),
-    alt.Color('MPAA_Rating')
+    alt.Y('Major_Genre')
 ).facet(
-    'Major_Genre'
+    'MPAA_Rating'
 )
 ```
 
@@ -443,7 +479,9 @@ alt.Chart(movies_cleaned).mark_bar().encode(
     alt.Color('MPAA_Rating')
 ).facet(
     'Major_Genre',
-    columns=1
+    columns=4
+).resolve_scale(
+    x='independent'
 )
 ```
 
@@ -523,12 +561,15 @@ We first identify and isolate all numerical columns from the dataset. Then we re
 ```{python}
 # Select only numerical columns
 numerical_columns = movies_cleaned.select_dtypes('number').columns.tolist()
+
+numerical_columns
 ```
 
 ```{python}
 alt.Chart(movies_cleaned).mark_bar().encode(
     alt.X(alt.repeat(),type='quantitative',bin=alt.Bin(maxbins=30)),
-    alt.Y('count()')
+    alt.Y('count()'),
+    tooltip=['count()']
 ).properties(
     width=150,
     height=150
@@ -554,8 +595,8 @@ alt.Chart(movies_cleaned).mark_point().encode(
     alt.Y(alt.repeat('row'),type='quantitative'),
     alt.Tooltip('Title:N')
 ).properties(
-    width=100,
-    height=100
+    width=150,
+    height=150
 ).repeat(
     column=numerical_columns,
     row=numerical_columns
@@ -600,6 +641,8 @@ categorical_columns =  movies_cleaned.select_dtypes('object').columns.to_list()
 categorical_columns_remove = ['Title','Release_Date','Distributor','Director']
 
 categorical_filtered = [col for col in categorical_columns if col not in categorical_columns_remove]
+
+categorical_filtered
 
 ```
 
