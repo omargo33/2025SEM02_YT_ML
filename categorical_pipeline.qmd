@@ -1,0 +1,153 @@
+---
+Title: "Categorical Pipeline"
+---
+
+
+# Importando librerías
+```{python}
+import pandas as pd
+from sklearn.datasets import fetch_openml
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, LabelEncoder, StandardScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.metrics import classification_report,ConfusionMatrixDisplay
+```
+
+# Cargar dataset
+
+```{python}
+data = fetch_openml('adult',version=2,as_frame=True)
+df = data.frame.copy()
+df
+
+```
+
+```{python}
+df.info()
+```
+
+# Preprocesamiento inicial
+```{python}
+df = df.dropna()
+```
+
+# Separación de features y de target
+
+```{python}
+X = df.drop("class",axis=1) #features
+y = df['class'] #target
+```
+
+# Split o división
+
+```{python}
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2,random_state=42,stratify=y)
+```
+
+# Seleccionar las columnas por tipo
+
+```{python}
+
+# for i in df['education'].unique():
+#     print(i)
+
+education_order = ["Preschool",
+                    "1st-4th",
+                    "5th-6th",
+                    "7th-8th",
+                    "9th",
+                    "10th",
+                    "11th",
+                    "12th",
+                    "HS-grad",
+                    "Some-college",
+                    "Assoc-acdm",
+                    "Assoc-voc",
+                    "Prof-school",
+                    "Bachelors",
+                    "Masters",
+                    "Doctorate"]
+
+```
+
+## Categorical column ordinal
+
+```{python}
+education_order
+```
+
+## Categorical columns nominal `education`
+
+```{python}
+categorical_columns = X.select_dtypes(include='category').columns.tolist()
+categorical_columns_nominal = [col for col in categorical_columns if col != 'education']
+categorical_columns_nominal
+```
+
+## Numerical columns
+
+```{python}
+
+numerical_columns = X.select_dtypes(include='number').columns.tolist()
+numerical_columns
+
+```
+
+# ColumnTransformer
+
+## Features transform
+```{python}
+processor = ColumnTransformer(
+    transformers=[
+        ('num',StandardScaler(),numerical_columns),
+        ('edu',OrdinalEncoder(categories=[education_order]),['education']),
+        ('onehot',OneHotEncoder(handle_unknown='ignore'),categorical_columns_nominal)
+    ]
+)
+
+```
+
+## Target transform
+
+```{python}
+label_target_encoded = LabelEncoder()
+y_train_encoded = label_target_encoded.fit_transform(y_train)
+y_test_encoded = label_target_encoded.fit_transform(y_test)
+```
+
+# Pipeline
+
+```{python}
+pipeline = Pipeline([
+    ('preprocesamiento',processor),
+    ('classifier',LogisticRegression(max_iter=10000))
+])
+```
+
+
+# Entrenamiento
+
+```{python}
+pipeline.fit(X_train,y_train_encoded)
+```
+
+# Evaluar
+
+```{python}
+y_pred = pipeline.predict(X_test)
+```
+
+# Evaluar los resultados
+
+
+```{python}
+print(classification_report(y_test_encoded,y_pred,target_names=label_target_encoded.classes_))
+```
+
+# Matriz de confusión
+
+```{python}
+ConfusionMatrixDisplay.from_predictions(y_test_encoded,y_pred)
+```
