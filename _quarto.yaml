@@ -11,7 +11,7 @@ website:
       - href: eda.qmd
         text: EDA
       - href: classification.qmd
-        text: Classfication
+        text: Classification
       - href: categorical_encoding.qmd
         text: Categorical encoding
       - href: categorical_pipeline.qmd
