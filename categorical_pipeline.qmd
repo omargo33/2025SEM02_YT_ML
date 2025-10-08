@@ -1,5 +1,6 @@
 ---
-Title: "Categorical Pipeline"
+title: "Categorical Pipeline"
+code-fold: false
 ---
 
 
@@ -72,13 +73,13 @@ education_order = ["Preschool",
 
 ```
 
-## Categorical column ordinal
+## Categorical column ordinal `education`
 
 ```{python}
 education_order
 ```
 
-## Categorical columns nominal `education`
+## Categorical columns nominal 
 
 ```{python}
 categorical_columns = X.select_dtypes(include='category').columns.tolist()

@@ -204,20 +204,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Ejemplo de categorical encoding</h1>
 <section id="importando-las-librerías" class="level2">
 <h2 class="anchored" data-anchor-id="importando-las-librerías">Importando las librerías</h2>
-<div id="efff89d1" class="cell" data-execution_count="1">
-<details class="code-fold">
-<summary>Code</summary>
+<div id="714c26a2" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> LabelEncoder, OneHotEncoder,OrdinalEncoder,StandardScaler, MinMaxScaler</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 </section>
 <section id="dataframe-de-ejemplo" class="level2">
 <h2 class="anchored" data-anchor-id="dataframe-de-ejemplo">Dataframe de ejemplo</h2>
-<div id="bfa8ad4e" class="cell" data-execution_count="2">
-<details class="code-fold">
-<summary>Code</summary>
+<div id="27567276" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'size'</span>:[<span class="st">'M'</span>,<span class="st">'S'</span>,<span class="st">'L'</span>], <span class="co">#categorico ordinal = OrdinalEncoder()</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'color'</span>:[<span class="st">'green'</span>,<span class="st">'red'</span>,<span class="st">'blue'</span>], <span class="co">#categorico nominal = OneHotEncoder()</span></span>
@@ -227,7 +222,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
@@ -273,12 +267,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="labelencoder-usar-solo-en-la-columna-de-output" class="level2">
 <h2 class="anchored" data-anchor-id="labelencoder-usar-solo-en-la-columna-de-output">LabelEncoder(): usar solo en la columna de <code>output</code></h2>
-<div id="5e0164dc" class="cell" data-execution_count="3">
-<details class="code-fold">
-<summary>Code</summary>
+<div id="812b178a" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'label_encoded'</span>] <span class="op">=</span> LabelEncoder().fit_transform(df[<span class="st">'label'</span>])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
@@ -328,13 +319,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ordinalencoder-usar-en-columnas-categoricas-ordinasl-donde-los-valores-tienen-un-orden-natural-e.g.-s-m-l" class="level2">
 <h2 class="anchored" data-anchor-id="ordinalencoder-usar-en-columnas-categoricas-ordinasl-donde-los-valores-tienen-un-orden-natural-e.g.-s-m-l">OrdinalEncoder(): usar en columnas categoricas ordinasl, donde los valores tienen un orden natural (e.g., S &lt; M &lt; L)</h2>
-<div id="34e4af64" class="cell" data-execution_count="4">
-<details class="code-fold">
-<summary>Code</summary>
+<div id="e527d777" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>size_order <span class="op">=</span> [[<span class="st">'S'</span>,<span class="st">'M'</span>,<span class="st">'L'</span>]]</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'size_encoded'</span>] <span class="op">=</span> OrdinalEncoder(categories<span class="op">=</span>size_order).fit_transform(df[[<span class="st">'size'</span>]])</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
@@ -388,9 +376,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="onehotencoder-usar-para-las-columnas-categoricas-nominales-donde-los-valores-no-tienen-un-orden" class="level2">
 <h2 class="anchored" data-anchor-id="onehotencoder-usar-para-las-columnas-categoricas-nominales-donde-los-valores-no-tienen-un-orden">OneHotEncoder(): usar para las columnas categoricas nominales, donde los valores no tienen un orden</h2>
-<div id="52d48997" class="cell" data-execution_count="5">
-<details class="code-fold">
-<summary>Code</summary>
+<div id="dce70ab0" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>color_encoder <span class="op">=</span> OneHotEncoder(sparse_output<span class="op">=</span><span class="va">False</span>,handle_unknown<span class="op">=</span><span class="st">'ignore'</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>color_encoded <span class="op">=</span> color_encoder.fit_transform(df[[<span class="st">'color'</span>]])</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -398,7 +384,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>df[color_title_encoded] <span class="op">=</span> color_encoded</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
@@ -467,9 +452,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>ColumnTransformer</h1>
 <section id="creación-del-preprocesor" class="level2">
 <h2 class="anchored" data-anchor-id="creación-del-preprocesor">Creación del preprocesor</h2>
-<div id="3e9c0032" class="cell" data-execution_count="6">
-<details class="code-fold">
-<summary>Code</summary>
+<div id="21d6513f" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>categorical_features <span class="op">=</span> [<span class="st">'color'</span>]</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ordinal_features <span class="op">=</span> [<span class="st">'size'</span>]</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>numerical_features <span class="op">=</span> [<span class="st">'price'</span>]</span>
@@ -483,17 +466,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'price_stan'</span>,StandardScaler(),numerical_features)</span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    ]</span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 </section>
 <section id="aplicar-el-preprocesor" class="level2">
 <h2 class="anchored" data-anchor-id="aplicar-el-preprocesor">Aplicar el preprocesor</h2>
-<div id="beace7aa" class="cell" data-execution_count="7">
-<details class="code-fold">
-<summary>Code</summary>
+<div id="dc73fd70" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>features_transformed <span class="op">=</span> preprocessor.fit_transform(df)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>features_transformed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>array([[ 0.        ,  1.        ,  0.        ,  1.        , -1.30910667],
        [ 0.        ,  0.        ,  1.        ,  0.        ,  0.19121783],
