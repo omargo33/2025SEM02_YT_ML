@@ -4,18 +4,25 @@ project:
 
 website:
   title: "Machine Learning"
-  navbar:
-    left:
-      - href: index.qmd
-        text: Home
-      - href: eda.qmd
-        text: EDA
-      - href: classification.qmd
-        text: Classification
-      - href: categorical_encoding.qmd
-        text: Categorical encoding
-      - href: categorical_pipeline.qmd
-        text: Categorical pipeline
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - text: "Welcome"
+        href: index.qmd
+      - section: "Introduction to ML"
+        contents:
+          - altair.qmd
+          - eda.qmd
+      - section: "Classification"
+        href: classification.qmd
+        contents:
+          - categorical_encoding.qmd
+          - categorical_pipeline.qmd
+      - section: "Natural Language Processing (NLP)"
+        contents:
+          - ml_text.qmd
+
 format:
   html:
     theme: cosmo
