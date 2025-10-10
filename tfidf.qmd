@@ -109,12 +109,17 @@ X = vectorizer.fit_transform(corpus_cleaned)
 vectorizer.get_feature_names_out()
 ```
 
-# Matriz de ocurrencias (conteos)
+# Matriz de TFIDF
 Esta matriz muestra cada fila un documento, y cada columna una palabra
+
+
+```{python}
+X.toarray()
+```
 
 ```{python}
 
 
-df = pd.DataFrame.sparse.from_spmatrix(X,columns=vectorizer.get_feature_names_out())
+df = pd.DataFrame(X.toarray(),columns=vectorizer.get_feature_names_out())
 df
 ```
