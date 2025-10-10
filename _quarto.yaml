@@ -22,6 +22,8 @@ website:
       - section: "Natural Language Processing (NLP)"
         contents:
           - ml_text.qmd
+          - bagofwords.qmd
+          - tfidf.qmd
 
 format:
   html:
