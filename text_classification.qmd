@@ -100,5 +100,9 @@ print("REPORTE DE CLASIFICACION\n",classification_report(y_test,y_pred,target_na
 # Matriz de confusión
 
 ```{python}
-ConfusionMatrixDisplay(confusion_matrix(y_test,y_pred),display_labels=newsgroups.target_names).plot()
+ConfusionMatrixDisplay(
+    confusion_matrix(y_test,y_pred),display_labels=newsgroups.target_names
+).plot(
+    xticks_rotation='vertical'
+)
 ```
