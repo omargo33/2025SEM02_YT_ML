@@ -222,6 +222,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Term-Frequency - Inverse Document Frequency (TF-IDF)</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./text_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Text classification</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -273,7 +279,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="importar-librerías" class="level1">
 <h1>Importar librerías</h1>
-<div id="3d7e4ac7" class="cell" data-execution_count="1">
+<div id="52b48f55" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer <span class="co">#BoW</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk</span>
@@ -302,7 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="dataset-ejemplo-corpus" class="level1">
 <h1>Dataset ejemplo Corpus</h1>
-<div id="3b555bbd" class="cell" data-execution_count="2">
+<div id="4d6056d4" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>corpus <span class="op">=</span> [</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Machine learning is all fun 1990 :) :( 🙁"</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Machine learning is part of AI AI 2000 🙁"</span>,</span>
@@ -313,13 +319,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="bow---countvectorizer" class="level1">
 <h1>BoW - CountVectorizer()</h1>
-<div id="24f2962c" class="cell" data-execution_count="3">
+<div id="40c851b0" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>stop_words <span class="op">=</span> stopwords.words(<span class="st">"english"</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>vectorizer <span class="op">=</span> CountVectorizer(stop_words<span class="op">=</span>stop_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="ejemplo-de-función-de-limpieza" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-de-función-de-limpieza">Ejemplo de función de limpieza</h2>
-<div id="17888c77" class="cell" data-execution_count="4">
+<div id="becfebbc" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_wordnet_pos(treebank_tag):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print("treebank_tag",treebank_tag)</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> treebank_tag.startswith(<span class="st">'J'</span>):</span>
@@ -358,7 +364,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="preprocesamiento-manual" class="level1">
 <h1>Preprocesamiento manual</h1>
-<div id="e07e0e28" class="cell" data-execution_count="5">
+<div id="1b6fb74f" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> doc <span class="kw">in</span> corpus:</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> preprocessing_document(doc)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"doc: </span><span class="sc">{</span>doc<span class="sc">}</span><span class="ss">, preprocesamiento: </span><span class="sc">{</span>r<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -372,14 +378,14 @@ doc: I love AI and machine learning, preprocesamiento: i love ai and machine lea
 <section id="fit_transform" class="level2">
 <h2 class="anchored" data-anchor-id="fit_transform">Fit_transform</h2>
 <p>Aprende del Corpus (vocabulario) y del ser caso elimina las stop-words</p>
-<div id="78ee2715" class="cell" data-execution_count="6">
+<div id="652a7f5b" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>corpus_cleaned <span class="op">=</span> [preprocessing_document(doc) <span class="cf">for</span> doc <span class="kw">in</span> corpus]</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> vectorizer.fit_transform(corpus)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="obtener-las-palabras-finales" class="level2">
 <h2 class="anchored" data-anchor-id="obtener-las-palabras-finales">Obtener las palabras finales</h2>
-<div id="cf0e4e73" class="cell" data-execution_count="7">
+<div id="8270d3d1" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>vectorizer.get_feature_names_out()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>array(['1990', '2000', 'ai', 'fun', 'learning', 'love', 'machine', 'part',
@@ -391,7 +397,7 @@ doc: I love AI and machine learning, preprocesamiento: i love ai and machine lea
 <section id="matriz-de-ocurrencias-conteos" class="level1">
 <h1>Matriz de ocurrencias (conteos)</h1>
 <p>Esta matriz muestra cada fila un documento, y cada columna una palabra</p>
-<div id="d022af66" class="cell" data-execution_count="8">
+<div id="84c1d667" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>X.toarray()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>array([[1, 0, 0, 1, 1, 0, 1, 0, 0],
@@ -400,7 +406,7 @@ doc: I love AI and machine learning, preprocesamiento: i love ai and machine lea
        [0, 0, 1, 0, 1, 1, 1, 0, 0]])</code></pre>
 </div>
 </div>
-<div id="dfacab5e" class="cell" data-execution_count="9">
+<div id="d7d527ba" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(X.toarray(),columns<span class="op">=</span>vectorizer.get_feature_names_out())</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">

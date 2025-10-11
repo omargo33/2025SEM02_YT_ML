@@ -222,6 +222,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Term-Frequency - Inverse Document Frequency (TF-IDF)</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./text_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Text classification</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -274,7 +280,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Introduccion a Altair</h1>
 <section id="importar-el-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="importar-el-dataset">Importar el dataset</h2>
-<div id="3eb2c4b9" class="cell" data-execution_count="1">
+<div id="54db5fdf" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
@@ -303,7 +309,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="visualización-en-altair">Visualización en Altair</h2>
 <section id="visualización-scatterplot" class="level3">
 <h3 class="anchored" data-anchor-id="visualización-scatterplot">Visualización scatterplot</h3>
-<div id="244bf799" class="cell" data-execution_count="2">
+<div id="6045a750" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(cars).mark_point().encode(</span>
@@ -316,23 +322,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-display" data-execution_count="2">
 
 <style>
-  #altair-viz-e96eda635e90427b92e7556e86e5e662.vega-embed {
+  #altair-viz-81dae91d39bf4df99ae0c7f122da7a7d.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-e96eda635e90427b92e7556e86e5e662.vega-embed details,
-  #altair-viz-e96eda635e90427b92e7556e86e5e662.vega-embed details summary {
+  #altair-viz-81dae91d39bf4df99ae0c7f122da7a7d.vega-embed details,
+  #altair-viz-81dae91d39bf4df99ae0c7f122da7a7d.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-e96eda635e90427b92e7556e86e5e662"></div>
+<div id="altair-viz-81dae91d39bf4df99ae0c7f122da7a7d"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-e96eda635e90427b92e7556e86e5e662") {
-      outputDiv = document.getElementById("altair-viz-e96eda635e90427b92e7556e86e5e662");
+    if (outputDiv.id !== "altair-viz-81dae91d39bf4df99ae0c7f122da7a7d") {
+      outputDiv = document.getElementById("altair-viz-81dae91d39bf4df99ae0c7f122da7a7d");
     }
 
     const paths = {
@@ -387,7 +393,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="visualización-scatterplot-con-color" class="level3">
 <h3 class="anchored" data-anchor-id="visualización-scatterplot-con-color">Visualización scatterplot con color</h3>
-<div id="76e51fdd" class="cell" data-execution_count="3">
+<div id="c12b9660" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(cars).mark_point(filled<span class="op">=</span><span class="va">True</span>).encode(</span>
@@ -400,23 +406,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-display" data-execution_count="3">
 
 <style>
-  #altair-viz-20db4883d0ae4c3790941736e0aceafa.vega-embed {
+  #altair-viz-b6a7b345d1094cdcab788ffbbe6c183a.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-20db4883d0ae4c3790941736e0aceafa.vega-embed details,
-  #altair-viz-20db4883d0ae4c3790941736e0aceafa.vega-embed details summary {
+  #altair-viz-b6a7b345d1094cdcab788ffbbe6c183a.vega-embed details,
+  #altair-viz-b6a7b345d1094cdcab788ffbbe6c183a.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-20db4883d0ae4c3790941736e0aceafa"></div>
+<div id="altair-viz-b6a7b345d1094cdcab788ffbbe6c183a"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-20db4883d0ae4c3790941736e0aceafa") {
-      outputDiv = document.getElementById("altair-viz-20db4883d0ae4c3790941736e0aceafa");
+    if (outputDiv.id !== "altair-viz-b6a7b345d1094cdcab788ffbbe6c183a") {
+      outputDiv = document.getElementById("altair-viz-b6a7b345d1094cdcab788ffbbe6c183a");
     }
 
     const paths = {
@@ -471,7 +477,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="visualización-scatterplot-con-color-1" class="level3">
 <h3 class="anchored" data-anchor-id="visualización-scatterplot-con-color-1">Visualización scatterplot con color</h3>
-<div id="b7762c94" class="cell" data-execution_count="4">
+<div id="b7b4009b" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(cars).mark_point(filled<span class="op">=</span><span class="va">True</span>).encode(</span>
@@ -485,23 +491,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-display" data-execution_count="4">
 
 <style>
-  #altair-viz-cb7c5b7be60d41bab6c883dc301d80bf.vega-embed {
+  #altair-viz-c8076ee4f6e541fd82c5410c28813fa7.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-cb7c5b7be60d41bab6c883dc301d80bf.vega-embed details,
-  #altair-viz-cb7c5b7be60d41bab6c883dc301d80bf.vega-embed details summary {
+  #altair-viz-c8076ee4f6e541fd82c5410c28813fa7.vega-embed details,
+  #altair-viz-c8076ee4f6e541fd82c5410c28813fa7.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-cb7c5b7be60d41bab6c883dc301d80bf"></div>
+<div id="altair-viz-c8076ee4f6e541fd82c5410c28813fa7"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-cb7c5b7be60d41bab6c883dc301d80bf") {
-      outputDiv = document.getElementById("altair-viz-cb7c5b7be60d41bab6c883dc301d80bf");
+    if (outputDiv.id !== "altair-viz-c8076ee4f6e541fd82c5410c28813fa7") {
+      outputDiv = document.getElementById("altair-viz-c8076ee4f6e541fd82c5410c28813fa7");
     }
 
     const paths = {
@@ -558,7 +564,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="agregaciones">Agregaciones</h3>
 <p>Gráfico de barras</p>
 <p><code>count()</code> de cada una de los origines</p>
-<div id="ae68631f" class="cell" data-execution_count="5">
+<div id="a14082f6" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(cars).mark_bar().encode(</span>
@@ -569,23 +575,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-display" data-execution_count="5">
 
 <style>
-  #altair-viz-77c7162eccfc42c7ae9f0000af87270d.vega-embed {
+  #altair-viz-4cb1acffcf654e60a23cf4151761c202.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-77c7162eccfc42c7ae9f0000af87270d.vega-embed details,
-  #altair-viz-77c7162eccfc42c7ae9f0000af87270d.vega-embed details summary {
+  #altair-viz-4cb1acffcf654e60a23cf4151761c202.vega-embed details,
+  #altair-viz-4cb1acffcf654e60a23cf4151761c202.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-77c7162eccfc42c7ae9f0000af87270d"></div>
+<div id="altair-viz-4cb1acffcf654e60a23cf4151761c202"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-77c7162eccfc42c7ae9f0000af87270d") {
-      outputDiv = document.getElementById("altair-viz-77c7162eccfc42c7ae9f0000af87270d");
+    if (outputDiv.id !== "altair-viz-4cb1acffcf654e60a23cf4151761c202") {
+      outputDiv = document.getElementById("altair-viz-4cb1acffcf654e60a23cf4151761c202");
     }
 
     const paths = {
@@ -638,7 +644,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p><code>mean()</code> de cada una de los origines</p>
-<div id="29982f33" class="cell" data-execution_count="6">
+<div id="fcce8788" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(cars).mark_bar().encode(</span>
@@ -653,23 +659,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-display" data-execution_count="6">
 
 <style>
-  #altair-viz-ffe06f1520fc41278d2a7c11ec76c9fe.vega-embed {
+  #altair-viz-3266274ceb8e4deca2bec046d60fac97.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-ffe06f1520fc41278d2a7c11ec76c9fe.vega-embed details,
-  #altair-viz-ffe06f1520fc41278d2a7c11ec76c9fe.vega-embed details summary {
+  #altair-viz-3266274ceb8e4deca2bec046d60fac97.vega-embed details,
+  #altair-viz-3266274ceb8e4deca2bec046d60fac97.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-ffe06f1520fc41278d2a7c11ec76c9fe"></div>
+<div id="altair-viz-3266274ceb8e4deca2bec046d60fac97"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-ffe06f1520fc41278d2a7c11ec76c9fe") {
-      outputDiv = document.getElementById("altair-viz-ffe06f1520fc41278d2a7c11ec76c9fe");
+    if (outputDiv.id !== "altair-viz-3266274ceb8e4deca2bec046d60fac97") {
+      outputDiv = document.getElementById("altair-viz-3266274ceb8e4deca2bec046d60fac97");
     }
 
     const paths = {
@@ -722,7 +728,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Gráfico lineal</p>
-<div id="8a9db5cd" class="cell" data-execution_count="7">
+<div id="09853eb6" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(cars).mark_line(point<span class="op">=</span><span class="va">True</span>).encode(</span>
@@ -736,23 +742,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-display" data-execution_count="7">
 
 <style>
-  #altair-viz-c50e5d49bbb14463bbbb3a427b094c4b.vega-embed {
+  #altair-viz-c175507712984c4588629e4e7f4c11a2.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-c50e5d49bbb14463bbbb3a427b094c4b.vega-embed details,
-  #altair-viz-c50e5d49bbb14463bbbb3a427b094c4b.vega-embed details summary {
+  #altair-viz-c175507712984c4588629e4e7f4c11a2.vega-embed details,
+  #altair-viz-c175507712984c4588629e4e7f4c11a2.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-c50e5d49bbb14463bbbb3a427b094c4b"></div>
+<div id="altair-viz-c175507712984c4588629e4e7f4c11a2"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-c50e5d49bbb14463bbbb3a427b094c4b") {
-      outputDiv = document.getElementById("altair-viz-c50e5d49bbb14463bbbb3a427b094c4b");
+    if (outputDiv.id !== "altair-viz-c175507712984c4588629e4e7f4c11a2") {
+      outputDiv = document.getElementById("altair-viz-c175507712984c4588629e4e7f4c11a2");
     }
 
     const paths = {

@@ -221,6 +221,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Term-Frequency - Inverse Document Frequency (TF-IDF)</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./text_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Text classification</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -265,7 +271,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="f15c2dec" class="cell" data-execution_count="1">
+<div id="af796ab7" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -285,7 +291,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="paso-1-importar-y-preparar-tus-textos" class="level1">
 <h1>Paso 1: Importar y preparar tus textos</h1>
-<div id="fca02df4" class="cell" data-execution_count="2">
+<div id="e46d7e13" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>docs <span class="op">=</span> [</span>
@@ -298,7 +304,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="paso-2-inicializar-el-countvectorizer" class="level1">
 <h1>Paso 2: Inicializar el CountVectorizer</h1>
-<div id="c9e29ad6" class="cell" data-execution_count="3">
+<div id="f1b8db7a" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>stop_words <span class="op">=</span> stopwords.words(<span class="st">'english'</span>)</span>
@@ -307,13 +313,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="fit-aprende-el-vocabulari" class="level2">
 <h2 class="anchored" data-anchor-id="fit-aprende-el-vocabulari">fit: Aprende el vocabulari</h2>
-<div id="9ea33481" class="cell" data-execution_count="4">
+<div id="7070b26f" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> vectorizer.fit_transform(docs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="d4985c55" class="cell" data-execution_count="5">
+<div id="b7198024" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>vectorizer.get_feature_names_out()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -326,7 +332,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="transform-crea-la-matriz-de-conteos-sparse-matrix" class="level2">
 <h2 class="anchored" data-anchor-id="transform-crea-la-matriz-de-conteos-sparse-matrix">transform: Crea la matriz de conteos (sparse matrix)</h2>
 <p>Cada fila representa un documento, cada columna una palabra del vocabulario</p>
-<div id="f8223e29" class="cell" data-execution_count="6">
+<div id="7c66f5b4" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>X.toarray()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -340,7 +346,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="visualizar-la-matriz-como-dataframe" class="level2">
 <h2 class="anchored" data-anchor-id="visualizar-la-matriz-como-dataframe">Visualizar la matriz como DataFrame</h2>
-<div id="bc00d737" class="cell" data-execution_count="7">
+<div id="35112146" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(X.toarray(), columns<span class="op">=</span>vectorizer.get_feature_names_out())</span>

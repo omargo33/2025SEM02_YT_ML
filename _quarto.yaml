@@ -24,6 +24,7 @@ website:
           - ml_text.qmd
           - bagofwords.qmd
           - tfidf.qmd
+          - text_classification.qmd
 
 format:
   html:
