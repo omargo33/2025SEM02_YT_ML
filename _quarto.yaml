@@ -25,6 +25,9 @@ website:
           - bagofwords.qmd
           - tfidf.qmd
           - text_classification.qmd
+      - section: "GridSearchCV"
+        contents:
+          - knn.qmd
 
 format:
   html:
