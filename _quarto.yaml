@@ -28,6 +28,9 @@ website:
       - section: "GridSearchCV"
         contents:
           - knn.qmd
+      - section: "Unsupervised Learning"
+        contents:
+          - kmeans.qmd
 
 format:
   html:
