@@ -31,6 +31,7 @@ website:
       - section: "Unsupervised Learning"
         contents:
           - kmeans.qmd
+          - hac.qmd
 
 format:
   html:

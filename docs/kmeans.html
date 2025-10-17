@@ -262,6 +262,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">K-means</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hac.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hierachical Agglomerative Clustering (HAC)</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -328,7 +334,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="importar-librerías" class="level1">
 <h1>Importar librerías</h1>
-<div id="cea75519" class="cell" data-execution_count="1">
+<div id="b4df7d5e" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
@@ -341,7 +347,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="carga-de-datos" class="level1">
 <h1>Carga de datos</h1>
-<div id="0585178c" class="cell" data-execution_count="2">
+<div id="60cea342" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/erickedu85/dataset/master/age_income.csv"</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(url)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -392,7 +398,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="visualizar-los-datos" class="level1">
 <h1>Visualizar los datos</h1>
-<div id="8cb367e5" class="cell" data-execution_count="3">
+<div id="02490de4" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(df).mark_circle(size<span class="op">=</span><span class="dv">20</span>).encode(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    alt.X(<span class="st">'age'</span>),</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    alt.Y(<span class="st">'annual_income($)'</span>),</span>
@@ -401,23 +407,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-display" data-execution_count="3">
 
 <style>
-  #altair-viz-bd8c37927a2944178287f1ea2b42a095.vega-embed {
+  #altair-viz-11c0b62f72d84ddc9101db749e3a8ccf.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-bd8c37927a2944178287f1ea2b42a095.vega-embed details,
-  #altair-viz-bd8c37927a2944178287f1ea2b42a095.vega-embed details summary {
+  #altair-viz-11c0b62f72d84ddc9101db749e3a8ccf.vega-embed details,
+  #altair-viz-11c0b62f72d84ddc9101db749e3a8ccf.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-bd8c37927a2944178287f1ea2b42a095"></div>
+<div id="altair-viz-11c0b62f72d84ddc9101db749e3a8ccf"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-bd8c37927a2944178287f1ea2b42a095") {
-      outputDiv = document.getElementById("altair-viz-bd8c37927a2944178287f1ea2b42a095");
+    if (outputDiv.id !== "altair-viz-11c0b62f72d84ddc9101db749e3a8ccf") {
+      outputDiv = document.getElementById("altair-viz-11c0b62f72d84ddc9101db749e3a8ccf");
     }
 
     const paths = {
@@ -476,7 +482,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="método-del-codo-elbow">Método del codo (Elbow)</h2>
 <section id="calcular-el-sum-of-squared-errors-sse" class="level3">
 <h3 class="anchored" data-anchor-id="calcular-el-sum-of-squared-errors-sse">Calcular el Sum of Squared Errors (SSE)</h3>
-<div id="b26f00e6" class="cell" data-execution_count="4">
+<div id="7a3a3d7b" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sse <span class="op">=</span> [] <span class="co">#inertia</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>k_range <span class="op">=</span> <span class="bu">range</span>(<span class="dv">2</span>,<span class="dv">11</span>) <span class="co">#valores posibles de k</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -494,7 +500,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="visualizar-el-sum-of-squared-errors-sse-vs-k" class="level3">
 <h3 class="anchored" data-anchor-id="visualizar-el-sum-of-squared-errors-sse-vs-k">Visualizar el Sum of Squared Errors (SSE) vs K</h3>
-<div id="9ffe4ed1" class="cell" data-execution_count="5">
+<div id="826a542c" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>elbow_df <span class="op">=</span> pd.DataFrame(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    {</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">'K'</span>:<span class="bu">list</span>(k_range),</span>
@@ -514,23 +520,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-display" data-execution_count="5">
 
 <style>
-  #altair-viz-fb746e18f3d346ec8081e52a5c1a03e1.vega-embed {
+  #altair-viz-c788ccde05e848f585d9c26ba97b16be.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-fb746e18f3d346ec8081e52a5c1a03e1.vega-embed details,
-  #altair-viz-fb746e18f3d346ec8081e52a5c1a03e1.vega-embed details summary {
+  #altair-viz-c788ccde05e848f585d9c26ba97b16be.vega-embed details,
+  #altair-viz-c788ccde05e848f585d9c26ba97b16be.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-fb746e18f3d346ec8081e52a5c1a03e1"></div>
+<div id="altair-viz-c788ccde05e848f585d9c26ba97b16be"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-fb746e18f3d346ec8081e52a5c1a03e1") {
-      outputDiv = document.getElementById("altair-viz-fb746e18f3d346ec8081e52a5c1a03e1");
+    if (outputDiv.id !== "altair-viz-c788ccde05e848f585d9c26ba97b16be") {
+      outputDiv = document.getElementById("altair-viz-c788ccde05e848f585d9c26ba97b16be");
     }
 
     const paths = {
@@ -586,7 +592,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="clusterización" class="level2">
 <h2 class="anchored" data-anchor-id="clusterización">Clusterización</h2>
-<div id="8afd27bf" class="cell" data-execution_count="6">
+<div id="1231cbc7" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>k_clusters <span class="op">=</span> <span class="dv">3</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>clusters <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>k_clusters,random_state<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'clusters'</span>] <span class="op">=</span> clusters.fit_predict(df[[<span class="st">'age'</span>,<span class="st">'annual_income($)'</span>]])</span>
@@ -643,7 +649,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="visualizar-la-clusterización" class="level3">
 <h3 class="anchored" data-anchor-id="visualizar-la-clusterización">Visualizar la clusterización</h3>
-<div id="8aa4d96d" class="cell" data-execution_count="7">
+<div id="941aee23" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(df).mark_circle(size<span class="op">=</span><span class="dv">20</span>).encode(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    alt.X(<span class="st">'age'</span>),</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    alt.Y(<span class="st">'annual_income($)'</span>),</span>
@@ -655,23 +661,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-display" data-execution_count="7">
 
 <style>
-  #altair-viz-6011187ed93f42ada227bfc80f0797a8.vega-embed {
+  #altair-viz-6f102eab476c4b6e81e528cd4d7bc9bf.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-6011187ed93f42ada227bfc80f0797a8.vega-embed details,
-  #altair-viz-6011187ed93f42ada227bfc80f0797a8.vega-embed details summary {
+  #altair-viz-6f102eab476c4b6e81e528cd4d7bc9bf.vega-embed details,
+  #altair-viz-6f102eab476c4b6e81e528cd4d7bc9bf.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-6011187ed93f42ada227bfc80f0797a8"></div>
+<div id="altair-viz-6f102eab476c4b6e81e528cd4d7bc9bf"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-6011187ed93f42ada227bfc80f0797a8") {
-      outputDiv = document.getElementById("altair-viz-6011187ed93f42ada227bfc80f0797a8");
+    if (outputDiv.id !== "altair-viz-6f102eab476c4b6e81e528cd4d7bc9bf") {
+      outputDiv = document.getElementById("altair-viz-6f102eab476c4b6e81e528cd4d7bc9bf");
     }
 
     const paths = {
@@ -730,7 +736,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>K-means con Estandarización + Pipeline</h1>
 <section id="columntransformer" class="level2">
 <h2 class="anchored" data-anchor-id="columntransformer">ColumnTransformer</h2>
-<div id="d1589af2" class="cell" data-execution_count="8">
+<div id="b6e166b2" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>num_cols <span class="op">=</span> [<span class="st">'age'</span>,<span class="st">'annual_income($)'</span>]</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>preprocessor <span class="op">=</span> ColumnTransformer(</span>
@@ -742,7 +748,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="pipeline" class="level2">
 <h2 class="anchored" data-anchor-id="pipeline">Pipeline</h2>
-<div id="08f7b87c" class="cell" data-execution_count="9">
+<div id="8d5fc442" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> Pipeline(</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    [</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'scaler'</span>,preprocessor),</span>
@@ -755,7 +761,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="método-del-codo-elbow-silhouette">Método del codo (Elbow) + Silhouette</h2>
 <section id="calcular-el-sum-of-squared-errors-sse-silhouette" class="level3">
 <h3 class="anchored" data-anchor-id="calcular-el-sum-of-squared-errors-sse-silhouette">Calcular el Sum of Squared Errors (SSE) + Silhouette</h3>
-<div id="b5b7fe5b" class="cell" data-execution_count="10">
+<div id="8af84bd6" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>k_range <span class="op">=</span> <span class="bu">range</span>(<span class="dv">2</span>,<span class="dv">11</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sse_standar <span class="op">=</span> []</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>silhouette_scores <span class="op">=</span> []</span>
@@ -864,7 +870,7 @@ SILHOUETTE SCORE 0.49114927636373373
 </section>
 <section id="visualizar-el-sum-of-squared-errors-sse-silhouette-vs-k" class="level2">
 <h2 class="anchored" data-anchor-id="visualizar-el-sum-of-squared-errors-sse-silhouette-vs-k">Visualizar el Sum of Squared Errors (SSE), Silhouette vs K</h2>
-<div id="7149c102" class="cell" data-execution_count="11">
+<div id="db4868b9" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sse_standard_df <span class="op">=</span> pd.DataFrame(</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    {</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">'K'</span>:k_range,</span>
@@ -901,23 +907,23 @@ SILHOUETTE SCORE 0.49114927636373373
 <div class="cell-output cell-output-display" data-execution_count="11">
 
 <style>
-  #altair-viz-0a4009f218fa4083b2b7dccb4748bbaf.vega-embed {
+  #altair-viz-665784820f6b4e8c97eb6365579773e8.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-0a4009f218fa4083b2b7dccb4748bbaf.vega-embed details,
-  #altair-viz-0a4009f218fa4083b2b7dccb4748bbaf.vega-embed details summary {
+  #altair-viz-665784820f6b4e8c97eb6365579773e8.vega-embed details,
+  #altair-viz-665784820f6b4e8c97eb6365579773e8.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-0a4009f218fa4083b2b7dccb4748bbaf"></div>
+<div id="altair-viz-665784820f6b4e8c97eb6365579773e8"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-0a4009f218fa4083b2b7dccb4748bbaf") {
-      outputDiv = document.getElementById("altair-viz-0a4009f218fa4083b2b7dccb4748bbaf");
+    if (outputDiv.id !== "altair-viz-665784820f6b4e8c97eb6365579773e8") {
+      outputDiv = document.getElementById("altair-viz-665784820f6b4e8c97eb6365579773e8");
     }
 
     const paths = {
@@ -972,7 +978,7 @@ SILHOUETTE SCORE 0.49114927636373373
 </section>
 <section id="clusterizacion-con-pipeline-standardscaler" class="level2">
 <h2 class="anchored" data-anchor-id="clusterizacion-con-pipeline-standardscaler">Clusterizacion con Pipeline + StandardScaler()</h2>
-<div id="bba88c63" class="cell" data-execution_count="12">
+<div id="008febc8" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>k_optimo <span class="op">=</span> k_range[silhouette_scores.index(<span class="bu">max</span>(silhouette_scores))]</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"K_OPTIMO"</span>,k_optimo)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1041,7 +1047,7 @@ SILHOUETTE SCORE 0.49114927636373373
 </section>
 <section id="visualizar-la-clusterización-1" class="level2">
 <h2 class="anchored" data-anchor-id="visualizar-la-clusterización-1">Visualizar la clusterización</h2>
-<div id="b728623d" class="cell" data-execution_count="13">
+<div id="ce6c04ab" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(df).mark_circle(size<span class="op">=</span><span class="dv">20</span>).encode(</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    alt.X(<span class="st">'age'</span>),</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    alt.Y(<span class="st">'annual_income($)'</span>),</span>
@@ -1053,23 +1059,23 @@ SILHOUETTE SCORE 0.49114927636373373
 <div class="cell-output cell-output-display" data-execution_count="13">
 
 <style>
-  #altair-viz-4ea3dc32d18744e48c5bc0d171123171.vega-embed {
+  #altair-viz-a218e291d9dd4bbfb20efcb92f9ad87a.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-4ea3dc32d18744e48c5bc0d171123171.vega-embed details,
-  #altair-viz-4ea3dc32d18744e48c5bc0d171123171.vega-embed details summary {
+  #altair-viz-a218e291d9dd4bbfb20efcb92f9ad87a.vega-embed details,
+  #altair-viz-a218e291d9dd4bbfb20efcb92f9ad87a.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-4ea3dc32d18744e48c5bc0d171123171"></div>
+<div id="altair-viz-a218e291d9dd4bbfb20efcb92f9ad87a"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-4ea3dc32d18744e48c5bc0d171123171") {
-      outputDiv = document.getElementById("altair-viz-4ea3dc32d18744e48c5bc0d171123171");
+    if (outputDiv.id !== "altair-viz-a218e291d9dd4bbfb20efcb92f9ad87a") {
+      outputDiv = document.getElementById("altair-viz-a218e291d9dd4bbfb20efcb92f9ad87a");
     }
 
     const paths = {

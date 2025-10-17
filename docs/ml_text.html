@@ -259,6 +259,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">K-means</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hac.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hierachical Agglomerative Clustering (HAC)</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -305,7 +311,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="cargar-librerías" class="level1">
 <h1>Cargar librerías</h1>
-<div id="7bdd6a21" class="cell" data-execution_count="1">
+<div id="e61ea4f5" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -350,7 +356,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="cargar-data" class="level1">
 <h1>Cargar data</h1>
-<div id="80902f3e" class="cell" data-execution_count="2">
+<div id="61f5393c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/erickedu85/dataset/master/story.txt"</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> requests.get(url)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>r.encoding <span class="op">=</span> <span class="st">'utf-8'</span></span>
@@ -364,7 +370,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="tokenización" class="level1">
 <h1>Tokenización</h1>
-<div id="010d5bc1" class="cell" data-execution_count="3">
+<div id="5f83b9c1" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk <span class="im">import</span> word_tokenize</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>words <span class="op">=</span> word_tokenize(story)</span>
@@ -395,7 +401,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="stemming-and-lemmatization" class="level1">
 <h1>Stemming and Lemmatization</h1>
-<div id="096e9741" class="cell" data-execution_count="4">
+<div id="4c82c911" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.stem <span class="im">import</span> PorterStemmer <span class="im">as</span> stemmer</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.stem <span class="im">import</span> WordNetLemmatizer <span class="im">as</span> lemmatizer</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.corpus <span class="im">import</span> wordnet</span>
@@ -417,7 +423,7 @@ LEMMATIZATION:  change</code></pre>
 </section>
 <section id="part-of-speech---pos-tag" class="level1">
 <h1>PART OF SPEECH - POS TAG</h1>
-<div id="955f0738" class="cell" data-execution_count="5">
+<div id="b4cfb755" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk <span class="im">import</span> pos_tag</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>pos <span class="op">=</span> pos_tag(words)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>pos[:<span class="dv">20</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -447,7 +453,7 @@ LEMMATIZATION:  change</code></pre>
 </section>
 <section id="stop-words" class="level1">
 <h1>STOP WORDS</h1>
-<div id="ae8c25e1" class="cell" data-execution_count="6">
+<div id="f0dfdcdb" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.corpus <span class="im">import</span> stopwords <span class="im">as</span> stop</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>stopwords <span class="op">=</span> stop.words(<span class="st">"english"</span>)</span>
@@ -481,7 +487,7 @@ LEMMATIZATION:  change</code></pre>
 </section>
 <section id="stop-words-in-story" class="level1">
 <h1>STOP WORDS IN STORY</h1>
-<div id="503e6c14" class="cell" data-execution_count="7">
+<div id="fd1d400b" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tokens <span class="op">=</span> nltk.word_tokenize(story.lower())</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># tokens[:20]</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
